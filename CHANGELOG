@@ -1,3 +1,5 @@
+* Use a Time-like object's built-in to_yaml method instead of the YAML.dump method if available, primarily to provide compatibility with ActiveSupport::TimeWithZone
+
 *0.1.1* (2006.09.03) 
 
 * Added License

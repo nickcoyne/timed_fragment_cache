@@ -78,7 +78,8 @@ module ActionController
       end    
     
       def write_meta_fragment(name, meta)
-        write_fragment_without_expiry(meta_fragment_key(name), YAML.dump(meta))
+        yaml_dump = meta.respond_to?(:to_yaml) ? meta.to_yaml : YAML.dump(meta)
+        write_fragment_without_expiry(meta_fragment_key(name), yaml_dump)
       end
     
       def meta_fragment_key(name)
