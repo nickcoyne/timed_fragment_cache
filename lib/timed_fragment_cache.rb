@@ -54,13 +54,13 @@ module ActionController
       end
             
       def write_fragment_with_expiry(name, content, options = nil, expiry = nil)
-        unless perform_caching then return content end
+        return content unless perform_caching
 
         if expiry && fragment_expired?(name)
-          expire_and_write_meta(name, expiry)  
+          expire_and_write_meta(name, expiry)
         end
         
-        write_fragment_without_expiry(name, content, options)          
+        write_fragment_without_expiry(name, content, options)
       end
     
       def expiry_time(name)
