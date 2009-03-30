@@ -70,7 +70,7 @@ module ActionController
       def fragment_expired?(name)
         return true unless read_fragment(name)
         expires = expiry_time(name)
-        expires.nil? || expires < Time.now
+        expires.nil? || expires < Time.current
       end
     
       def read_meta_fragment(name)
