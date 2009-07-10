@@ -93,11 +93,13 @@ module ActionController
         expire_and_write_meta(name, expiry)
       end
     
-      def expire_and_write_meta(name, expiry)
-        expire_fragment(name)
-        write_meta_fragment(name, expiry) if expiry
+      def expire_and_write_meta(name, expiry, &block)
+        expiry_time = expiry - Time.now()
+        write_meta_fragment(name, Time.now() + 1.minute)
+        content = yield
+        write_meta_fragment(name, Time.now() + expiry_time)
+        write_fragment(name, content)
       end
-    
     end
   end
 end
@@ -113,11 +115,12 @@ module ActionView
         end      
       end    
     
-      def cache_with_expiry(name = {}, expires = nil, &block)
-        if expires && @controller.fragment_expired?(name)
-          @controller.expire_and_write_meta(name, expires)
+      def cache_with_expiry(name = {}, expiry = nil, &block)
+        if expiry && @controller.fragment_expired?(name)
+          @controller.expire_and_write_meta(name, expiry, &block)
+        else
+          cache_without_expiry(name, &block)
         end
-        cache_without_expiry(name, &block)
       end
     
     end
