@@ -96,7 +96,12 @@ module ActionController
         expire_fragment(name)
         write_meta_fragment(name, expiry) if expiry
       end
-    
+
+      def expire_fragment_with_meta(name)
+        expire_fragment(name)
+        expire_fragment(meta_fragment_key(name))
+      end
+ 
     end
   end
 end
