@@ -15,7 +15,7 @@ In your controller
 
 In your view
 
-  <%- cache 'some_posts' -%>
+  <%- cache 'some_posts' do -%>
     <%- @posts.each do |post| -%>
       <%= @post.title %>
     <%- end -%>
