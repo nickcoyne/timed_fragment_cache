@@ -47,14 +47,16 @@ module ActionController
     module TimedFragment
 
       def self.included(base) # :nodoc:
-        base.class_eval do 
+        base.class_eval do
           alias_method :write_fragment_without_expiry, :write_fragment
           alias_method :write_fragment, :write_fragment_with_expiry
         end
       end
 
       def write_fragment_with_expiry(name, content, options = nil, expiry = nil)
-        unless perform_caching then return content end
+        unless perform_caching then
+          return content
+        end
 
         if expiry && fragment_expired?(name)
           expire_and_write_meta(name, expiry)
@@ -102,6 +104,14 @@ module ActionController
         expire_fragment(meta_fragment_key(name))
       end
 
+      def expire_without_dogpile(name, expiry, &block)
+        expiry_time = expiry - Time.now()
+        write_meta_fragment(name, Time.now() + 1.day)
+        content = yield
+        write_fragment_without_expiry(name, content, nil)
+        write_meta_fragment(name, expiry)
+      end
+
     end
   end
 end
@@ -111,7 +121,7 @@ module ActionView
     module TimedFragmentCacheHelper
 
       def self.included(base) # :nodoc:
-        base.class_eval do 
+        base.class_eval do
           alias_method :cache_without_expiry, :cache
           alias_method :cache, :cache_with_expiry
         end
@@ -122,6 +132,14 @@ module ActionView
           @controller.expire_and_write_meta(name, expires)
         end
         cache_without_expiry(name, &block)
+      end
+
+      def cache_without_dogpile(name = {}, expires = nil, &block)
+        if expires && @controller.fragment_expired?(name)
+          @controller.expire_without_dogpile(name, expires, &block)
+        else
+          cache_without_expiry(name, &block)
+        end
       end
 
     end
