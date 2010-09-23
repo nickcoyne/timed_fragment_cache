@@ -1,10 +1,12 @@
-* Use a Time-like object's built-in to_yaml method instead of the YAML.dump method if available, primarily to provide compatibility with ActiveSupport::TimeWithZone
+*0.2* (2008.07.26, Steffen Rusitschka)
 
-*0.1.1* (2006.09.03) 
+* Port to Rails 2.1
+
+*0.1.1* (2006.09.03)
 
 * Added License
 * Added expiry_time to get time the fragment is set to expire
 
-*0.1* 
+*0.1*
 
 * Initial version
