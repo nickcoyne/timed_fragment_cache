@@ -21,5 +21,21 @@ In your view
     <%- end -%>
   <%- end -%>
 
+Or
+
+  <%- cache 'some_posts', 20.seconds.from_now do -%>
+    <%- @posts.each do |post| -%>
+      <%= @post.title %>
+    <%- end -%>
+  <%- end -%>
+
+Prevent cache dogpiling by using
+
+  <%- cache_without_dogpile 'some_posts', 20.seconds.from_now do -%>
+    <%- @posts.each do |post| -%>
+      <%= @post.title %>
+    <%- end -%>
+  <%- end -%>
+
 Khalid Shaikh
 khalid.j.shaikh@gmail.com
