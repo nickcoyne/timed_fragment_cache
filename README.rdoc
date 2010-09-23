@@ -1,11 +1,11 @@
-=timed_fragment_cache
+=timed_fragment_cache (without dogpile)
 
-  git clone git://github.com/kshaikh/timed_fragment_cache.git
+  git clone git@github.com:weibel/timed_fragment_cache.git
   in your vendors/plugin directory
 
 or
 
-  script/plugin install git://github.com/kshaikh/timed_fragment_cache.git
+  script/plugin install git@github.com:weibel/timed_fragment_cache.git
 
 In your controller
 
@@ -36,6 +36,12 @@ Prevent cache dogpiling by using
       <%= @post.title %>
     <%- end -%>
   <%- end -%>
+
+Read about cache dogpiling here
+http://hype-free.blogspot.com/2008/05/avoiding-dogpile-effect.html
+
+Kasper Weibel
+weibel@gmail.com
 
 Khalid Shaikh
 khalid.j.shaikh@gmail.com
