@@ -105,13 +105,17 @@ module ActionController
       end
 
       def expire_without_dogpile(name, expiry, &block)
-        expiry_time = expiry - Time.now()
         write_meta_fragment(name, Time.now() + 1.day)
-        content = yield
-        write_fragment_without_expiry(name, content, nil)
-        write_meta_fragment(name, expiry)
+        begin
+          content = yield
+          write_fragment_without_expiry(name, content, nil)
+          write_meta_fragment(name, expiry)
+        rescue Exception => ex
+          expire_fragment(name)
+          expire_fragment(meta_fragment_key(name))
+          raise ex
+        end
       end
-
     end
   end
 end
