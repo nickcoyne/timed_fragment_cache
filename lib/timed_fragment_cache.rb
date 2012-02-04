@@ -72,7 +72,7 @@ module ActionController
       def fragment_expired?(name)
         return true unless read_fragment(name)
         expires = expiry_time(name)
-        expires.nil? || expires < Time.now
+        expires.nil? || expires < Time.current
       end
 
       def read_meta_fragment(name)
@@ -105,7 +105,7 @@ module ActionController
       end
 
       def expire_without_dogpile(name, expiry, &block)
-        write_meta_fragment(name, Time.now() + 1.day)
+        write_meta_fragment(name, Time.current() + 1.day)
         begin
           content = yield
           write_fragment_without_expiry(name, content, nil)
