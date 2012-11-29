@@ -1,0 +1,6 @@
+.DS_Store
+*.swp
+*.db
+.bundle
+pkg
+timed_fragment_cache-*.gem
